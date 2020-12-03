@@ -29,7 +29,7 @@ public class WikiPhilosophy {
         String destination = "https://en.wikipedia.org/wiki/Philosophy";
         String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
 
-        testConjecture(destination, source, 10);
+        testConjecture(destination, source, 20);
     }
 
     /**
@@ -40,6 +40,39 @@ public class WikiPhilosophy {
      * @throws IOException
      */
     public static void testConjecture(String destination, String source, int limit) throws IOException {
-        // TODO: FILL THIS IN!
+        String url = source;
+        for(int i=0; i < limit; i++){
+            if(visited.contains(url)) {
+                System.err.println("We already visit this page");
+                return;
+            } else{
+                visited.add(url);
+            }
+            Element element = getFirstValidLink(url);
+            if(element == null){
+                System.err.println("Got to a page with no valid links.");
+                return;
+            }
+
+            System.out.println("**" + element.text() + "**");
+            url = element.attr("abs:href");
+
+            if (url.equals(destination)) {
+                System.out.println("Find destination!!");
+                break;
+            }
+        }
+    }
+
+    public static Element getFirstValidLink(String url) throws IOException{
+        print("Fetching %s...", url);
+        Elements paragraphs = wf.fetchWikipedia(url);
+        WikiParser wp = new WikiParser(paragraphs);
+        Element element = wp.findFirstLink();
+        return element;
+    }
+
+    private static void print(String msg, Object... args) {
+        System.out.println(String.format(msg, args));
     }
 }

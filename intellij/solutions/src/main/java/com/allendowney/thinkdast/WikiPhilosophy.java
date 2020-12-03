@@ -30,7 +30,7 @@ public class WikiPhilosophy {
 		String destination = "https://en.wikipedia.org/wiki/Philosophy";
 		String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
 		
-		testConjecture(destination, source, 10);		
+		testConjecture(destination, source, 20);
 	}
 
 	/**
